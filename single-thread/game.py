@@ -4,9 +4,7 @@ import argparse
 import signal
 import sys
 import time
-import random
-import collections
-import enum
+from game_utils import *
 
 class GameStatus(enum.Enum):
   PLAYING = 1,
@@ -26,7 +24,8 @@ def init_window(window_params):
   window.keypad(True)
   return window
 
-parser = argparse.ArgumentParser(description='Spaceship game options')
+
+parser = argparse.ArgumentParser(description='{} options'.format(GAME_NAME))
 parser.add_argument('--canvas_height', type=int, default='10', help='a number to specify your game window height')
 parser.add_argument('--canvas_width', type=int, default='50', help='a number to specify your game window width')
 parser.add_argument('--begin_y', type=int, default='0')
@@ -229,4 +228,4 @@ if __name__ == "__main__":
     curses.curs_set(1)
     scr.keypad(0)
     curses.endwin()
-    print(state['screen_dimensions'])
+    print('\n\nThank you for playing {}!\n\n'.format(GAME_NAME))
