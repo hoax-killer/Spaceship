@@ -16,7 +16,7 @@ def init_window(window_params):
 parser = argparse.ArgumentParser(description='{} options'.format(GAME_NAME))
 parser.add_argument('-l', '--canvas_height', type=int, default='20', help='Height of the game\'s window (i.e. # of lines) >= {}'.format(MIN_HEIGHT))
 parser.add_argument('-w', '--canvas_width', type=int, default='65', help='Width of the game window (i.e. # of characters per line) >= {}'.format(MIN_WIDTH))
-parser.add_argument('-b', '--border_flag', type=int, default='1', help='Whether to use border or no border')
+parser.add_argument('-b', '--border_flag', type=int, default='0', help='Whether to use border or no border')
 parser.add_argument('-v', '--speed', type=int, default='5', help='Speed of the incoming rocks, 1 (slow) to 5 (fast).')
 parser.add_argument('-d', '--density', type=int, default='20', help='The density of rocks, 1 (few) to 50 (many).')
 parser.add_argument('-m', '--mode', default='auto', help='Game-mode. auto/static/windy*.')
