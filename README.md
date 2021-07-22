@@ -44,6 +44,7 @@ _\* not yet implemented!_
 
 ## Pending Improvements
 - A windy mode where the spaceship's speed can increase and decrease based on space-winds.
+- Reduce time drafts (see [Issue #1](https://github.com/hoax-killer/Spaceship/issues/1))
 - If user (Q)uits while playing a game, prompt user if they wish to quit the game.
 - Non-blocking version which can help reduce the impact of clock drifts.
 - Use Object Oriented principles to refactor game.
