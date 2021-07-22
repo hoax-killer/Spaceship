@@ -14,7 +14,7 @@ This is a simple game where a spaceship needs to dodge space-rocks. This is a ga
 3. Run the command:<br>
     `cd single-thread && python3 game.py`
 
-Here is a YouTube video (TODO) of the game in action.
+Here is a [YouTube video](https://youtu.be/B9yT61-XaVc) of the game in action.
 
 ### Command-Line Arguments and Options
 
