@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 import enum
 
-class GameStatus(enum.Enum):
+class ScreenType(enum.Enum):
   PLAYING = 1,
-  PAUSED = 2,
-  OVER = 3,
-  HOME = 4,
-  QUIT = 5
+  HOME = 2
 
 GAME_NAME = 'The Space Jam Game'
 SPACE_SHIP_SYMBOL = 'Y'

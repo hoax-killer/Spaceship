@@ -48,6 +48,7 @@ if __name__ == "__main__":
     state['screen_dimensions'] = scr.getmaxyx()
 
     # check if terminal can fit the game window
+    # TODO: Can be refactored into checkDimension() or another function that returns both T/F and msgs to print
     if not checkDimensions(scr, game_config):
       curses.endwin()
       print()
@@ -88,7 +89,7 @@ if __name__ == "__main__":
       # Did user just resize the terminal? How do we handle this?
       if keystroke == curses.KEY_RESIZE:
         # Pause the game!
-        if not state['game_paused'] and state['game_screen'] == GameStatus.PLAYING:
+        if not state['game_paused'] and state['game_screen'] == ScreenType.PLAYING:
           state['game_paused'] = not state['game_paused']
           state['window'].nodelay(not state['game_paused'])
 
@@ -113,10 +114,10 @@ if __name__ == "__main__":
           updateGameState(state)
 
         # User intends to start a new game
-        if state['game_screen'] == GameStatus.HOME and (keystroke == ord('n') or keystroke == ord(' ')):
+        if state['game_screen'] == ScreenType.HOME and (keystroke == ord('n') or keystroke == ord(' ')):
           resetGameState(state, game_config)
           state['game_running'] = True
-          state['game_screen'] = GameStatus.PLAYING
+          state['game_screen'] = ScreenType.PLAYING
           state['window'].nodelay(True)
 
         # User moving the spaceship in left or right directions
@@ -131,12 +132,12 @@ if __name__ == "__main__":
       # Quit game?
       if keystroke == ord('q'):
         state['game_quit'] = True
-        state['game_screen'] = GameStatus.HOME
+        state['game_screen'] = ScreenType.HOME
 
       # render the screen
       renderScreen(state)
 
-      if state['game_screen'] == GameStatus.HOME:
+      if state['game_screen'] == ScreenType.HOME:
         state['window'].nodelay(False)
 
     state['window'].refresh()

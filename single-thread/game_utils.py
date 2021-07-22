@@ -55,7 +55,7 @@ def updateGameState(s):
 
   # check if user hit the rock!
   if s['rows'][0][s['user_position']] == SPACE_ROCK_SYMBOL:
-    s['game_screen'] = GameStatus.HOME
+    s['game_screen'] = ScreenType.HOME
     s['game_running'] = False
     s['note'] = 'Game over!'
     s['note'] += '\nWoW! Successfully dodging a total of {} space rocks,'.format(s['rocks_dodged'])
@@ -80,7 +80,7 @@ def renderScreen(s):
   '''use game's state to render the game's screen'''
 
   if not s['dim_not_compatible']:
-    if s['game_screen'] == GameStatus.PLAYING and not s['game_paused']:
+    if s['game_screen'] == ScreenType.PLAYING and not s['game_paused']:
       # render an active game's screen
 
       for n in range(s['lines']):
@@ -99,7 +99,7 @@ def renderScreen(s):
       s['window'].erase()
       msg = 'Game paused! (Press <P> to continue)'
       renderTextCenter(s['window'], msg, s)
-    elif s['game_screen'] == GameStatus.HOME:
+    elif s['game_screen'] == ScreenType.HOME:
       s['window'].erase()
       renderTextCenter(s['window'], '{}!'.format(GAME_NAME), s, y_offset=-5, text_options=curses.A_STANDOUT)
       renderTextCenter(s['window'], 'Press space-bar or <N> to start a new game!', s, y_offset=-2)
@@ -132,7 +132,7 @@ def resetGameState(s, config):
   '''reset the game's state'''
   s['user_position'] = int(s['width'] / 2)
   s['game_quit'] = False
-  s['game_screen'] = GameStatus.HOME  # PLAYING, HOME
+  s['game_screen'] = ScreenType.HOME  # PLAYING, HOME
   s['game_running'] = False
   s['game_paused'] = False
   s['score'] = 0
