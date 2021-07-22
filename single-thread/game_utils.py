@@ -76,6 +76,7 @@ def renderTextCenter(window, text, s, x_offset=0, y_offset=0, text_options=curse
   window.addstr(int(int(s['lines']) / 2) + y_offset, int(s['width'] / 2) - int(len(text) / 2) + x_offset, text,
                 text_options)
 
+
 def renderScreen(s):
   '''use game's state to render the game's screen'''
 
@@ -113,9 +114,11 @@ def renderScreen(s):
     s['window'].addstr(1, 1, s['note'], curses.A_BLINK)
   s['window'].refresh()
 
+
 def printToScreen(s, txt='Nothing'):
   s['window'].addstr(0, 0, txt, curses.A_BLINK)
   s['window'].refresh()
+
 
 def updateNote(s, last_line=True, center_align=True):
   '''a function to display note in the last line of screen's dimensions'''

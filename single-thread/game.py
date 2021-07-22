@@ -4,6 +4,7 @@ import sys
 import time
 from game_utils import *
 
+
 def init_window(window_params):
   '''Initialize a new window with the dimensions entered by the user as CL-args'''
   window = curses.newwin(window_params.canvas_height, window_params.canvas_width, window_params.begin_y,
@@ -14,8 +15,10 @@ def init_window(window_params):
 
 
 parser = argparse.ArgumentParser(description='{} options'.format(GAME_NAME))
-parser.add_argument('-l', '--canvas_height', type=int, default='20', help='Height of the game\'s window (i.e. # of lines) >= {}'.format(MIN_HEIGHT))
-parser.add_argument('-w', '--canvas_width', type=int, default='65', help='Width of the game window (i.e. # of characters per line) >= {}'.format(MIN_WIDTH))
+parser.add_argument('-l', '--canvas_height', type=int, default='20',
+                    help='Height of the game\'s window (i.e. # of lines) >= {}'.format(MIN_HEIGHT))
+parser.add_argument('-w', '--canvas_width', type=int, default='65',
+                    help='Width of the game window (i.e. # of characters per line) >= {}'.format(MIN_WIDTH))
 parser.add_argument('-b', '--border_flag', type=int, default='0', help='Whether to use border or no border')
 parser.add_argument('-v', '--speed', type=int, default='5', help='Speed of the incoming rocks, 1 (slow) to 5 (fast).')
 parser.add_argument('-d', '--density', type=int, default='20', help='The density of rocks, 1 (few) to 50 (many).')
@@ -62,9 +65,15 @@ if __name__ == "__main__":
           "\n# The --canvas-width/-w argument should have a minimum value of {}. Currently, it's set to {}.".format(
             MIN_WIDTH, game_config.canvas_width))
       if state['screen_dimensions'][0] < game_config.canvas_height:
-        print("\n# Your terminal's height is {} but is configured to run with {} rows. Please resize and increase the terminal's height.".format(state['screen_dimensions'][0], game_config.canvas_height))
+        print(
+          "\n# Your terminal's height is {} but is configured to run with {} rows. "
+          "Please resize and increase the terminal's height.".format(
+            state['screen_dimensions'][0], game_config.canvas_height))
       if state['screen_dimensions'][1] < game_config.canvas_width:
-        print("\n# Your terminal's width is {} but is configured to run with {} characters. Please resize and increase the terminal's width.".format(state['screen_dimensions'][1], game_config.canvas_width))
+        print(
+          "\n# Your terminal's width is {} but is configured to run with {} characters. "
+          "Please resize and increase the terminal's width.".format(
+            state['screen_dimensions'][1], game_config.canvas_width))
       print()
 
       sys.exit(0)
@@ -109,7 +118,7 @@ if __name__ == "__main__":
           state['note'] = ''
 
         # update the game's state
-        if (time.time() - start)*1000 >= state['scroll_speed'] and not state['game_paused']:
+        if (time.time() - start) * 1000 >= state['scroll_speed'] and not state['game_paused']:
           start = time.time()
           updateGameState(state)
 
@@ -134,7 +143,6 @@ if __name__ == "__main__":
         state['game_quit'] = True
         state['game_screen'] = ScreenType.HOME
 
-      # render the screen
       renderScreen(state)
 
       if state['game_screen'] == ScreenType.HOME:
