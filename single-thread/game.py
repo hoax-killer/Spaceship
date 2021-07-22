@@ -2,6 +2,7 @@
 import argparse
 import sys
 import time
+import datetime
 from game_utils import *
 
 def init_window(window_params):
@@ -34,6 +35,8 @@ game_config, unknown = parser.parse_known_args()
 
 # Game's state is maintained as a simple Python dictonary
 state = dict()
+
+ts = list()
 
 if __name__ == "__main__":
   '''main function'''
@@ -109,8 +112,11 @@ if __name__ == "__main__":
           state['note'] = ''
 
         # update the game's state
-        if (time.time() - start)*1000 >= state['scroll_speed'] and not state['game_paused']:
-          start = time.time()
+        if (time.time() - start)*1000 >= state['next_time_check'] and not state['game_paused']:
+          state['next_time_check'] = state['next_time_check'] + state['scroll_speed']
+          state['last_update'] = time.time()
+          ts.append(datetime.datetime.now())
+          # start = time.time()
           updateGameState(state)
 
         # User intends to start a new game
@@ -125,9 +131,9 @@ if __name__ == "__main__":
           state['user_position'] = min(state['user_position'] + 1, state['width'] - 1)
         elif keystroke == curses.KEY_LEFT:
           state['user_position'] = max(state['user_position'] - 1, 0)
-        elif keystroke == curses.KEY_UP:
-          start = time.time()
-          updateGameState(state)
+        # elif keystroke == curses.KEY_UP:
+        #   state['next_time_check'] = state['next_time_check'] - ((time.time() - state['last_update']) * 1000)
+        #   updateGameState(state)
 
       # Quit game?
       if keystroke == ord('q'):
@@ -155,3 +161,6 @@ if __name__ == "__main__":
     curses.endwin()
 
     print('\n\nThank you for trying out {}!\n\n'.format(GAME_NAME))
+
+    for t in ts:
+      print(t)

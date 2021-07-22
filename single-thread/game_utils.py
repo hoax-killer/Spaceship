@@ -104,7 +104,7 @@ def renderScreen(s):
       renderTextCenter(s['window'], '{}!'.format(GAME_NAME), s, y_offset=-5, text_options=curses.A_STANDOUT)
       renderTextCenter(s['window'], 'Press space-bar or <N> to start a new game!', s, y_offset=-2)
       renderTextCenter(s['window'], 'Use <LEFT> or <RIGHT> keys to move either sides.', s, y_offset=0)
-      renderTextCenter(s['window'], 'Use <UP> key to accelerate.', s, y_offset=1)
+      # renderTextCenter(s['window'], 'Use <UP> key to accelerate.', s, y_offset=1)
 
     updateNote(s)
     if s['border']: s['window'].border(0)
@@ -143,6 +143,8 @@ def resetGameState(s, config):
     s['scroll_speed'] = 1200 - (int(config.speed) * 200)
   else:
     s['scroll_speed'] = 1000  # in ms
+
+  s['next_time_check'] = s['scroll_speed']
 
   s['note'] = ''
   s['dim_not_compatible'] = False
