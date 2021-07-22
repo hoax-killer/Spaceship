@@ -6,8 +6,14 @@ from consts import *
 
 
 def initGameState(s, config):
-  s['lines'] = config.canvas_height - 1
-  s['width'] = config.canvas_width
+  if config.border_flag == 1:
+    s['border'] = 1
+  else:
+    s['border'] = 0
+
+  s['lines'] = config.canvas_height - 1 - s['border']
+  s['width'] = config.canvas_width - (2*s['border'])
+
   s['rows'] = collections.deque(maxlen=s['lines'])
   s['user_position'] = 0
   s['game_quit'] = False
@@ -50,13 +56,15 @@ def renderTextCenter(window, text, s, x_offset=0, y_offset=0, text_options = cur
 def renderScreen(s):
   if s['game_screen'] == GameStatus.PLAYING and not s['game_paused']:
     for n in range(s['lines']):
-      s['window'].addstr(n, 0, ''.join(s['rows'][s['lines']-n-1]))
-    s['window'].addstr(s['lines']-1, s['user_position'], SPACE_SHIP_SYMBOL,
+      s['window'].addstr(n, s['border'], ''.join(s['rows'][s['lines']-n-1]))
+    s['window'].addstr(s['lines']-1, s['user_position'] + s['border'], SPACE_SHIP_SYMBOL,
                   curses.A_BOLD)
-    s['window'].addstr(s['lines'], 0, '(P) Pause  |  (Q) Quit',
-                  curses.A_REVERSE)
-    s['window'].addstr(s['lines'], 30, ' Score: {}'.format(str(s['score']).zfill(3)),
-                  curses.A_BOLD)
+    menu_opts = ' (P) Pause | (Q) Quit '
+    current_score = ' Score: {0: <5}'.format(str(s['score']))
+    menu_opts = '{}{}'.format(menu_opts, ' ' * int(s['width'] - len(menu_opts) - len(current_score)))
+
+    s['window'].addstr(s['lines'], s['border'], menu_opts, curses.A_REVERSE)
+    s['window'].addstr(s['lines'], len(menu_opts)-1, current_score, curses.A_BOLD)
   if s['game_paused']:
     s['window'].erase()
     msg = 'Game paused! (Press <P> to continue)'
@@ -66,6 +74,7 @@ def renderScreen(s):
     renderTextCenter(s['window'], '{}!'.format(GAME_NAME), s, y_offset=-2, text_options=curses.A_STANDOUT)
     renderTextCenter(s['window'], 'Press space-bar or <N> to start a new game!', s)
   updateNote(s)
+  if s['border']: s['window'].border()
   s['window'].refresh()
 
 def printToScreen(s, txt='Nothing'):
@@ -91,10 +100,12 @@ def resetGameState(s):
     s['rows'].append([' '] * s['width'])
 
 def checkDimensions(scr, game_config):
-  # get terminal dimensions (height,width)
   term_dimensions = scr.getmaxyx()
 
-  if term_dimensions[0] < game_config.canvas_height and term_dimensions[1] < game_config.canvas_width:
+  if term_dimensions[0] < game_config.canvas_height or game_config.canvas_height < MIN_HEIGHT:
+    return False
+
+  if term_dimensions[1] < game_config.canvas_width or game_config.canvas_width < MIN_WIDTH:
     return False
   return True
 
