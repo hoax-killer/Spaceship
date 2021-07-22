@@ -122,6 +122,7 @@ if __name__ == "__main__":
         # User intends to start a new game
         if state['game_screen'] == ScreenType.HOME and (keystroke == ord('n') or keystroke == ord(' ')):
           resetGameState(state, game_config)
+          start = time.time()
           state['game_running'] = True
           state['game_screen'] = ScreenType.PLAYING
           state['window'].nodelay(True)
